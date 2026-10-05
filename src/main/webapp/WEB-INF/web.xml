@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee" version="6.0">
+  <display-name>KTQT - De 03</display-name>
+  <filter>
+    <filter-name>encoding</filter-name>
+    <filter-class>vn.iotstar.ktqt03.filter.EncodingFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>adminAuth</filter-name>
+    <filter-class>vn.iotstar.ktqt03.filter.AdminFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>sitemesh</filter-name>
+    <filter-class>vn.iotstar.ktqt03.filter.TomcatSiteMeshFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>encoding</filter-name><url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>adminAuth</filter-name><url-pattern>/admin/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>sitemesh</filter-name><url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+  </filter-mapping>
+  <session-config>
+    <session-timeout>30</session-timeout>
+    <cookie-config><http-only>true</http-only></cookie-config>
+    <tracking-mode>COOKIE</tracking-mode>
+  </session-config>
+  <welcome-file-list><welcome-file>home</welcome-file></welcome-file-list>
+</web-app>

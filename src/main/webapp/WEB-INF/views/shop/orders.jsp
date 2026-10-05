@@ -1,0 +1,17 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %><%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<!DOCTYPE html><html lang="vi"><head><title>Lịch sử đơn hàng</title></head><body><fmt:setLocale value="vi_VN"/>
+<span class="eyebrow">03 / THEO DÕI ĐƠN HÀNG</span><h1>${adminShop ? 'Quản lý đơn hàng' : 'Lịch sử đặt hàng'}</h1><p>Trạng thái được cập nhật từ database mỗi lần tải trang.</p>
+<c:if test="${not empty message}"><p class="success" role="status"><c:out value="${message}"/></p></c:if><c:if test="${not empty error}"><p class="error" role="alert"><c:out value="${error}"/></p></c:if>
+<nav class="status-tabs" aria-label="Lọc trạng thái"><a class="${empty filter ? 'selected' : ''}" href="${pageContext.request.contextPath}${adminShop ? '/admin/orders' : '/orders'}">Tất cả</a><c:forEach var="s" items="${statuses}"><a class="${filter == s.code ? 'selected' : ''}" href="?status=${s.code}">${s.label}</a></c:forEach></nav>
+<c:if test="${empty orders}"><div class="empty-state">Chưa có đơn hàng ở trạng thái này.</div></c:if>
+<c:forEach var="o" items="${orders}"><article class="panel order-card" id="order-${o.OrderId}">
+<div class="summary-bar"><div><h2>Đơn #${o.OrderId}</h2><p><fmt:formatDate value="${o.CreatedAt}" pattern="dd/MM/yyyy HH:mm"/> · COD</p><c:if test="${adminShop}"><p>Tài khoản: <c:out value="${o.Username}"/></p></c:if></div><span class="badge status-${o.Status}"><c:out value="${o.StatusLabel}"/></span></div>
+<c:forEach var="i" items="${o.Items}"><p><c:out value="${i.Title}"/> × ${i.Quantity} <strong><fmt:formatNumber value="${i.Subtotal}"/> ₫</strong></p></c:forEach>
+<hr><p>Tổng COD: <strong class="price"><fmt:formatNumber value="${o.Total}"/> ₫</strong></p><p>Người nhận: <c:out value="${o.Recipient}"/> · <c:out value="${o.Phone}"/></p><p>Địa chỉ: <c:out value="${o.Address}"/></p><c:if test="${not empty o.Note}"><p>Ghi chú: <c:out value="${o.Note}"/></p></c:if>
+<details><summary>Diễn biến trạng thái</summary><ol class="timeline"><c:forEach var="event" items="${o.Events}"><li><c:forEach var="s" items="${statuses}"><c:if test="${s.code == event.Status}">${s.label}</c:if></c:forEach> · <fmt:formatDate value="${event.ChangedAt}" pattern="dd/MM/yyyy HH:mm:ss"/></li></c:forEach></ol></details>
+<c:choose><c:when test="${adminShop and o.Status != 'CANCELLED' and o.Status != 'RETURNED'}"><form method="post" class="status-form"><input type="hidden" name="csrf" value="${csrf}"><input type="hidden" name="orderId" value="${o.OrderId}"><label for="status-${o.OrderId}">Chuyển trạng thái</label><select id="status-${o.OrderId}" name="status"><c:forEach var="s" items="${statuses}"><option value="${s.code}" ${o.Status == s.code ? 'selected' : ''}>${s.label}</option></c:forEach></select><button>Cập nhật</button></form><p class="muted">Chuyển theo tiến trình; hủy trước vận chuyển, hoàn từ vận chuyển trở đi.</p></c:when>
+<c:when test="${not adminShop and o.Status == 'NEW'}"><form method="post"><input type="hidden" name="csrf" value="${csrf}"><input type="hidden" name="orderId" value="${o.OrderId}"><button class="btn-danger">Hủy đơn hàng mới</button></form></c:when></c:choose>
+</article></c:forEach>
+<nav class="pagination"><c:if test="${orderPage > 1}"><a href="?status=<c:out value='${filter}'/>&amp;page=${orderPage-1}">← Trước</a></c:if><span>Trang ${orderPage}</span><c:if test="${orders.size() == 20}"><a href="?status=<c:out value='${filter}'/>&amp;page=${orderPage+1}">Sau →</a></c:if></nav>
+</body></html>

@@ -1,0 +1,65 @@
+package vn.iotstar.ktqt03.entity;
+
+import jakarta.persistence.*;
+import org.hibernate.annotations.Nationalized;
+
+@Entity(name="AppUser")
+@Table(name="Users", schema="dbo")
+public class User {
+    @Id
+    @Nationalized
+    @Column(name="Username", length=50)
+    private String username;
+
+    @Nationalized
+    @Column(name="Password", length=50)
+    private String password;
+
+    @Nationalized
+    @Column(name="Phone", length=15)
+    private String phone;
+
+    @Nationalized
+    @Column(name="Fullname", length=50)
+    private String fullName;
+
+    @Nationalized
+    @Column(name="Email", length=150)
+    private String email;
+
+    @Column(name="Admin")
+    private Boolean admin;
+
+    @Column(name="Active")
+    private Boolean active;
+
+    @Nationalized
+    @Column(name="Images", length=500)
+    private String images;
+
+    public User() {}
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public Boolean getAdmin() { return admin; }
+    public void setAdmin(Boolean admin) { this.admin = admin; }
+
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
+
+    public String getImages() { return images; }
+    public void setImages(String images) { this.images = images; }
+}

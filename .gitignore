@@ -1,0 +1,11 @@
+target/
+.runtime/
+.runtime-test/
+config.local.ps1
+*.log
+.idea/
+.settings/
+.classpath
+.project
+__pycache__/
+*.pyc

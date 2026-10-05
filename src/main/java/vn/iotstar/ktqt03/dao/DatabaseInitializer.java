@@ -46,6 +46,7 @@ public final class DatabaseInitializer {
                         """);
                     execute(c, resource("/db/schema.sql"));
                     execute(c, resource("/db/seed.sql"));
+                    execute(c, resource("/db/demo-users.sql"));
                     execute(c, resource("/db/commerce.sql"));
                     execute(c, resource("/db/order-trigger.sql"));
                     c.commit();

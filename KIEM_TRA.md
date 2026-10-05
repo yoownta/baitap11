@@ -12,6 +12,7 @@ Ngày kiểm tra: 05/10/2026, giờ Việt Nam.
 - Hai tài khoản thanh toán đồng thời khi còn một sản phẩm: chỉ một đơn được tạo, tồn kho không âm.
 - Video: JSP player có nguồn nội bộ, MP4 trả HTTP 206 và byte range cho tua video; thư viện/tìm kiếm/phân trang và quản lý nguồn phát render thành công.
 - OTP sử dụng SMTP giả lập trên loopback, không gửi thư ra Internet. SMTP thật vẫn cần cấu hình và kiểm tra bằng hộp thư của người dùng.
+- Bổ sung tài khoản demo ngày 05/10/2026: chạy setup hai lần thành công; 6 kiểm tra HTTP xác nhận demo_user/demo_admin đăng nhập, mở giỏ hàng, phân quyền khách hàng và truy cập quản lý đơn của admin. Build lại thành công, 11 unit test qua.
 - Kiểm tra trực quan bằng trình duyệt tự động chưa thực hiện được vì phiên công cụ không cung cấp trình duyệt. Kiểm thử JSP/HTTP đã chạy trên server thật.
 
 Chi tiết tự động: `target/commerce-results.json`; database kiểm thử: `BAITAP11_test_20261005_092914`. Database kiểm thử được giữ riêng, không dùng làm dữ liệu ứng dụng. Chạy lại bằng `tools/commerce-smoke-test.ps1` sẽ tạo database thử mới.

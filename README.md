@@ -11,7 +11,26 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 -Port 8082
 
 Mở **http://localhost:8082/ktqt03/home**. Giữ cửa sổ server mở; Ctrl+C để dừng. Nếu đã build: thêm `-SkipBuild`. Context path `ktqt03` được giữ để tương thích source gốc; cổng 8082 tránh trùng bản cũ.
 
-`config.local.ps1` được sao chép riêng trên máy, đổi database thành **BAITAP11_24133054**, không đưa vào Git/ZIP nộp bài. Khi chuyển máy, copy `config.example.ps1` thành `config.local.ps1` rồi cấu hình SQL và SMTP. Không có mật khẩu đăng nhập mặc định. Đăng ký → xác minh OTP qua SMTP → đăng nhập. Có thể nâng tài khoản đã kích hoạt thành admin:
+`config.local.ps1` được sao chép riêng trên máy, đổi database thành **BAITAP11_24133054**, không đưa vào Git/ZIP nộp bài. Khi chuyển máy, copy `config.example.ps1` thành `config.local.ps1` rồi cấu hình SQL. SMTP cần cho đăng ký tài khoản mới; tài khoản demo bên dưới đăng nhập ngay không cần OTP.
+
+## Tài khoản đăng nhập demo
+
+Mở **http://localhost:8082/ktqt03/login** sau khi chạy ứng dụng.
+
+| Vai trò | Tên đăng nhập | Mật khẩu | Có thể thử |
+|---|---|---|---|
+| Khách hàng | `demo_user` | `DemoUser11!` | Xem video, giỏ hàng, đặt COD, lịch sử và hủy đơn mới |
+| Quản trị | `demo_admin` | `DemoAdmin11!` | Quản lý video/nguồn phát, sản phẩm và trạng thái đơn hàng |
+
+Hai tài khoản được tạo tự động khi khởi động với `KTQT_DB_INIT=true`, hoặc khi chạy `database.sql`. Mật khẩu phân biệt chữ hoa/chữ thường. Đây là tài khoản mẫu công khai dành cho bài tập, không dùng cho dữ liệu thật. Database lưu mật khẩu dưới dạng PBKDF2; script không ghi đè tài khoản đã tồn tại.
+
+Nếu đang dùng database đã tạo trước khi thêm tài khoản demo, chạy lệnh này để bổ sung ngay, không cần dừng server:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\setup-demo.ps1
+```
+
+Tài khoản tự đăng ký vẫn đi theo luồng đăng ký → xác minh OTP qua SMTP → đăng nhập. Có thể nâng tài khoản đã kích hoạt thành admin:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\create-admin.ps1 -Username TEN_DANG_NHAP
